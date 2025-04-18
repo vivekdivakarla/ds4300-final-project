@@ -22,12 +22,12 @@ def load_env_variables():
         "s3_bucket_name": os.getenv("S3_BUCKET_NAME", "vivekcoolbucket1234"),
     }
 
-# Select a random CSV file from the input data set
-def get_random_csv_file(folder_path):
-    csv_files = list(Path(folder_path).glob("*.csv"))
+# Select all CSVs from dataset
+def get_csv_files(folder_path, limit=NUM_UPLOADS):
+    csv_files = sorted(Path(folder_path).glob("*.csv"))
     if not csv_files:
         raise FileNotFoundError(f"No CSV files found in {folder_path}")
-    return random.choice(csv_files)
+    return csv_files[:limit]
 
 # Upload the selected file to the S3 bucket into uploads folder
 def upload_to_s3(s3_client, file_path, bucket_name):
